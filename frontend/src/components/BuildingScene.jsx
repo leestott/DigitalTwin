@@ -1,6 +1,6 @@
 import React, { useRef, useMemo, useState, useEffect, Suspense } from 'react';
 import { useFrame, useLoader } from '@react-three/fiber';
-import { Box, Text, Sphere, useGLTF, Html } from '@react-three/drei';
+import { Box, Text, Sphere, Cylinder, useGLTF, Html } from '@react-three/drei';
 import * as THREE from 'three';
 
 // Check if GLB model exists
@@ -11,6 +11,293 @@ try {
   useGLTF.preload(GLB_PATH);
 } catch (e) {
   console.log('GLB model not available, using procedural geometry');
+}
+
+// Tree colors for variety
+const TREE_COLORS = ['#228B22', '#2E8B57', '#3CB371', '#006400', '#32CD32'];
+const CAR_COLORS = ['#2c3e50', '#e74c3c', '#3498db', '#27ae60', '#f39c12', '#9b59b6', '#1abc9c', '#e67e22', '#95a5a6', '#34495e'];
+
+// Simple tree component
+function Tree({ position, scale = 1 }) {
+  const trunkHeight = 2 * scale;
+  const trunkRadius = 0.3 * scale;
+  const foliageRadius = 1.5 * scale;
+  const foliageHeight = 3 * scale;
+  const color = TREE_COLORS[Math.floor(Math.random() * TREE_COLORS.length)];
+  
+  return (
+    <group position={position}>
+      {/* Trunk */}
+      <Cylinder
+        args={[trunkRadius, trunkRadius * 1.2, trunkHeight, 8]}
+        position={[0, trunkHeight / 2, 0]}
+      >
+        <meshStandardMaterial color="#4a3728" roughness={0.9} />
+      </Cylinder>
+      
+      {/* Foliage - cone shape */}
+      <Cylinder
+        args={[0, foliageRadius, foliageHeight, 8]}
+        position={[0, trunkHeight + foliageHeight / 2, 0]}
+      >
+        <meshStandardMaterial color={color} roughness={0.8} />
+      </Cylinder>
+      
+      {/* Second layer of foliage */}
+      <Cylinder
+        args={[0, foliageRadius * 0.8, foliageHeight * 0.7, 8]}
+        position={[0, trunkHeight + foliageHeight * 1.1, 0]}
+      >
+        <meshStandardMaterial color={color} roughness={0.8} />
+      </Cylinder>
+    </group>
+  );
+}
+
+// Rounded/bushy tree variant
+function RoundTree({ position, scale = 1 }) {
+  const trunkHeight = 1.5 * scale;
+  const trunkRadius = 0.25 * scale;
+  const color = TREE_COLORS[Math.floor(Math.random() * TREE_COLORS.length)];
+  
+  return (
+    <group position={position}>
+      {/* Trunk */}
+      <Cylinder
+        args={[trunkRadius, trunkRadius * 1.3, trunkHeight, 8]}
+        position={[0, trunkHeight / 2, 0]}
+      >
+        <meshStandardMaterial color="#5d4e37" roughness={0.9} />
+      </Cylinder>
+      
+      {/* Foliage spheres */}
+      <Sphere args={[1.2 * scale, 12, 12]} position={[0, trunkHeight + 1 * scale, 0]}>
+        <meshStandardMaterial color={color} roughness={0.85} />
+      </Sphere>
+      <Sphere args={[0.9 * scale, 10, 10]} position={[0.5 * scale, trunkHeight + 1.8 * scale, 0.3 * scale]}>
+        <meshStandardMaterial color={color} roughness={0.85} />
+      </Sphere>
+      <Sphere args={[0.8 * scale, 10, 10]} position={[-0.4 * scale, trunkHeight + 1.5 * scale, -0.4 * scale]}>
+        <meshStandardMaterial color={color} roughness={0.85} />
+      </Sphere>
+    </group>
+  );
+}
+
+// Simple car component
+function Car({ position, rotation = 0, color }) {
+  const carColor = color || CAR_COLORS[Math.floor(Math.random() * CAR_COLORS.length)];
+  
+  return (
+    <group position={position} rotation={[0, rotation, 0]}>
+      {/* Car body - lower part */}
+      <Box args={[2, 0.6, 1]} position={[0, 0.4, 0]}>
+        <meshStandardMaterial color={carColor} metalness={0.6} roughness={0.3} />
+      </Box>
+      
+      {/* Car body - cabin */}
+      <Box args={[1.2, 0.5, 0.9]} position={[0.1, 0.95, 0]}>
+        <meshStandardMaterial color={carColor} metalness={0.6} roughness={0.3} />
+      </Box>
+      
+      {/* Windows */}
+      <Box args={[1.1, 0.35, 0.92]} position={[0.1, 0.97, 0]}>
+        <meshStandardMaterial color="#1a1a2e" metalness={0.9} roughness={0.1} />
+      </Box>
+      
+      {/* Wheels */}
+      <Cylinder args={[0.25, 0.25, 0.15, 12]} rotation={[0, 0, Math.PI / 2]} position={[0.6, 0.2, 0.5]}>
+        <meshStandardMaterial color="#222222" roughness={0.9} />
+      </Cylinder>
+      <Cylinder args={[0.25, 0.25, 0.15, 12]} rotation={[0, 0, Math.PI / 2]} position={[-0.6, 0.2, 0.5]}>
+        <meshStandardMaterial color="#222222" roughness={0.9} />
+      </Cylinder>
+      <Cylinder args={[0.25, 0.25, 0.15, 12]} rotation={[0, 0, Math.PI / 2]} position={[0.6, 0.2, -0.5]}>
+        <meshStandardMaterial color="#222222" roughness={0.9} />
+      </Cylinder>
+      <Cylinder args={[0.25, 0.25, 0.15, 12]} rotation={[0, 0, Math.PI / 2]} position={[-0.6, 0.2, -0.5]}>
+        <meshStandardMaterial color="#222222" roughness={0.9} />
+      </Cylinder>
+      
+      {/* Headlights */}
+      <Box args={[0.05, 0.15, 0.3]} position={[1.01, 0.4, 0.3]}>
+        <meshStandardMaterial color="#ffffcc" emissive="#ffffaa" emissiveIntensity={0.3} />
+      </Box>
+      <Box args={[0.05, 0.15, 0.3]} position={[1.01, 0.4, -0.3]}>
+        <meshStandardMaterial color="#ffffcc" emissive="#ffffaa" emissiveIntensity={0.3} />
+      </Box>
+      
+      {/* Taillights */}
+      <Box args={[0.05, 0.1, 0.2]} position={[-1.01, 0.4, 0.35]}>
+        <meshStandardMaterial color="#ff3333" emissive="#ff0000" emissiveIntensity={0.2} />
+      </Box>
+      <Box args={[0.05, 0.1, 0.2]} position={[-1.01, 0.4, -0.35]}>
+        <meshStandardMaterial color="#ff3333" emissive="#ff0000" emissiveIntensity={0.2} />
+      </Box>
+    </group>
+  );
+}
+
+// Parking space line marker
+function ParkingLine({ position, rotation = 0, length = 2.5 }) {
+  return (
+    <Box 
+      args={[0.1, 0.02, length]} 
+      position={position}
+      rotation={[0, rotation, 0]}
+    >
+      <meshStandardMaterial color="#ffffff" />
+    </Box>
+  );
+}
+
+// Car park with multiple cars
+function CarPark({ position, rows = 2, spotsPerRow = 6 }) {
+  const spotWidth = 2.8;
+  const spotDepth = 5;
+  const aisleWidth = 4;
+  
+  const parkingSpots = useMemo(() => {
+    const spots = [];
+    const cars = [];
+    
+    for (let row = 0; row < rows; row++) {
+      const rowZ = row * (spotDepth + aisleWidth);
+      const facingOut = row % 2 === 0;
+      
+      for (let spot = 0; spot < spotsPerRow; spot++) {
+        const spotX = spot * spotWidth;
+        
+        // Add parking lines
+        spots.push({
+          id: `line-${row}-${spot}`,
+          position: [spotX - spotWidth/2, 0.01, rowZ],
+          type: 'line'
+        });
+        
+        // Randomly place cars (70% occupancy)
+        if (Math.random() < 0.7) {
+          cars.push({
+            id: `car-${row}-${spot}`,
+            position: [spotX, 0, rowZ + (facingOut ? -0.5 : 0.5)],
+            rotation: facingOut ? 0 : Math.PI,
+            color: CAR_COLORS[Math.floor(Math.random() * CAR_COLORS.length)]
+          });
+        }
+      }
+      
+      // End line for row
+      spots.push({
+        id: `line-${row}-end`,
+        position: [spotsPerRow * spotWidth - spotWidth/2, 0.01, rowZ],
+        type: 'line'
+      });
+    }
+    
+    return { spots, cars };
+  }, [rows, spotsPerRow]);
+  
+  const parkingLotWidth = spotsPerRow * spotWidth;
+  const parkingLotDepth = rows * (spotDepth + aisleWidth);
+  
+  return (
+    <group position={position}>
+      {/* Parking lot surface */}
+      <Box 
+        args={[parkingLotWidth, 0.1, parkingLotDepth]} 
+        position={[parkingLotWidth/2 - spotWidth/2, -0.05, parkingLotDepth/2 - spotDepth/2]}
+      >
+        <meshStandardMaterial color="#2c2c2c" roughness={0.9} />
+      </Box>
+      
+      {/* Parking lines */}
+      {parkingSpots.spots.map(spot => (
+        <ParkingLine key={spot.id} position={spot.position} length={spotDepth - 0.5} />
+      ))}
+      
+      {/* Cars */}
+      {parkingSpots.cars.map(car => (
+        <Car key={car.id} position={car.position} rotation={car.rotation} color={car.color} />
+      ))}
+      
+      {/* Parking lot border/curb */}
+      <Box args={[parkingLotWidth + 0.5, 0.15, 0.3]} position={[parkingLotWidth/2 - spotWidth/2, 0.05, -spotDepth/2 - 0.5]}>
+        <meshStandardMaterial color="#555555" />
+      </Box>
+      <Box args={[parkingLotWidth + 0.5, 0.15, 0.3]} position={[parkingLotWidth/2 - spotWidth/2, 0.05, parkingLotDepth - spotDepth/2 + 0.2]}>
+        <meshStandardMaterial color="#555555" />
+      </Box>
+    </group>
+  );
+}
+
+// Tree row for landscaping
+function TreeRow({ startPosition, count, spacing = 4, treeType = 'mixed' }) {
+  const trees = useMemo(() => {
+    return Array.from({ length: count }, (_, i) => ({
+      id: i,
+      position: [startPosition[0] + i * spacing, startPosition[1], startPosition[2]],
+      type: treeType === 'mixed' ? (Math.random() > 0.5 ? 'cone' : 'round') : treeType,
+      scale: 0.8 + Math.random() * 0.4
+    }));
+  }, [startPosition, count, spacing, treeType]);
+  
+  return (
+    <group>
+      {trees.map(tree => (
+        tree.type === 'cone' 
+          ? <Tree key={tree.id} position={tree.position} scale={tree.scale} />
+          : <RoundTree key={tree.id} position={tree.position} scale={tree.scale} />
+      ))}
+    </group>
+  );
+}
+
+// Landscape elements grouped
+function Landscape() {
+  return (
+    <group>
+      {/* Trees along the front of the building */}
+      <TreeRow startPosition={[-8, 0, -5]} count={4} spacing={5} treeType="round" />
+      <TreeRow startPosition={[45, 0, -5]} count={3} spacing={5} treeType="round" />
+      
+      {/* Trees along the sides */}
+      <TreeRow startPosition={[-5, 0, 5]} count={6} spacing={8} treeType="cone" />
+      <TreeRow startPosition={[55, 0, 5]} count={5} spacing={8} treeType="mixed" />
+      
+      {/* Trees at back */}
+      <TreeRow startPosition={[5, 0, 50]} count={8} spacing={6} treeType="mixed" />
+      
+      {/* Individual accent trees */}
+      <RoundTree position={[-10, 0, 25]} scale={1.2} />
+      <Tree position={[60, 0, 25]} scale={1.3} />
+      <RoundTree position={[-8, 0, 40]} scale={1.0} />
+      
+      {/* Car park in front of building */}
+      <CarPark position={[5, 0, -20]} rows={2} spotsPerRow={8} />
+      
+      {/* Secondary smaller parking area */}
+      <CarPark position={[50, 0, -15]} rows={1} spotsPerRow={4} />
+      
+      {/* Entrance road/driveway */}
+      <Box args={[8, 0.05, 15]} position={[25, 0, -12]}>
+        <meshStandardMaterial color="#333333" roughness={0.8} />
+      </Box>
+      
+      {/* Sidewalk in front */}
+      <Box args={[70, 0.08, 3]} position={[25, 0, -3]}>
+        <meshStandardMaterial color="#888888" roughness={0.7} />
+      </Box>
+      
+      {/* Grass patches */}
+      <Box args={[15, 0.02, 12]} position={[-3, 0, -12]}>
+        <meshStandardMaterial color="#2d5a27" roughness={0.95} />
+      </Box>
+      <Box args={[10, 0.02, 12]} position={[55, 0, -12]}>
+        <meshStandardMaterial color="#2d5a27" roughness={0.95} />
+      </Box>
+    </group>
+  );
 }
 
 // Color mapping for zone status
@@ -398,9 +685,12 @@ function BuildingScene({ assets, telemetry, alerts, selectedAsset, onSelectAsset
       <group>
         {/* Ground plane */}
         <mesh rotation={[-Math.PI / 2, 0, 0]} position={[30, -0.5, 20]} receiveShadow>
-          <planeGeometry args={[120, 100]} />
+          <planeGeometry args={[150, 120]} />
           <meshStandardMaterial color="#1a2030" />
         </mesh>
+        
+        {/* Landscape - trees and car park */}
+        <Landscape />
         
         <Suspense fallback={<GLBLoadingFallback />}>
           <GLBModel
@@ -413,7 +703,7 @@ function BuildingScene({ assets, telemetry, alerts, selectedAsset, onSelectAsset
         </Suspense>
         
         {/* Grid helper */}
-        <gridHelper args={[120, 24, '#333344', '#222233']} position={[30, 0.01, 20]} />
+        <gridHelper args={[150, 30, '#333344', '#222233']} position={[30, 0.01, 20]} />
       </group>
     );
   }
@@ -423,9 +713,12 @@ function BuildingScene({ assets, telemetry, alerts, selectedAsset, onSelectAsset
     <group>
       {/* Ground plane */}
       <mesh rotation={[-Math.PI / 2, 0, 0]} position={[20, -0.5, 10]} receiveShadow>
-        <planeGeometry args={[100, 80]} />
+        <planeGeometry args={[150, 120]} />
         <meshStandardMaterial color="#1a2030" />
       </mesh>
+      
+      {/* Landscape - trees and car park */}
+      <Landscape />
       
       {/* Floor plates */}
       {floors.map((floor, idx) => (
@@ -478,7 +771,7 @@ function BuildingScene({ assets, telemetry, alerts, selectedAsset, onSelectAsset
       ))}
       
       {/* Grid helper */}
-      <gridHelper args={[100, 20, '#333344', '#222233']} position={[20, 0, 10]} />
+      <gridHelper args={[150, 30, '#333344', '#222233']} position={[20, 0, 10]} />
     </group>
   );
 }
