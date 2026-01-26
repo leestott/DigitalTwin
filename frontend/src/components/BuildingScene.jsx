@@ -278,8 +278,8 @@ function Landscape() {
       </mesh>
       
       {/* ===== PAVED AREAS (on top of grass) ===== */}
-      {/* Building foundation/plaza - concrete pad under building */}
-      <Box args={[75, 0.1, 50]} position={[20, 0.05, 10]}>
+      {/* Building foundation/plaza - concrete pad under building (z: -10 to 30) */}
+      <Box args={[75, 0.1, 40]} position={[20, 0.05, 10]}>
         <meshStandardMaterial color="#555555" roughness={0.8} />
       </Box>
       
@@ -294,12 +294,12 @@ function Landscape() {
       </Box>
       
       {/* Main entrance road - from parking to building front */}
-      <Box args={[10, 0.06, 35]} position={[20, 0.03, -27]}>
+      <Box args={[10, 0.06, 25]} position={[20, 0.03, -27]}>
         <meshStandardMaterial color="#333333" roughness={0.85} />
       </Box>
       
-      {/* Sidewalk in front of building entrance */}
-      <Box args={[70, 0.1, 4]} position={[20, 0.05, -12]}>
+      {/* Sidewalk in front of building entrance - outside building at z=-14 */}
+      <Box args={[70, 0.1, 4]} position={[20, 0.05, -14]}>
         <meshStandardMaterial color="#777777" roughness={0.7} />
       </Box>
       
@@ -342,19 +342,11 @@ function Landscape() {
       <Tree position={[52, 0.02, 32]} scale={0.9} colorIndex={0} />
       
       {/* ===== DECORATIVE GRASS PATCHES (darker green accents) ===== */}
-      {/* Grass islands in parking area */}
-      <Box args={[3, 0.15, 8]} position={[-5, 0.075, -55]}>
+      {/* Planter strips along sidewalk - outside building at z=-16 */}
+      <Box args={[25, 0.2, 2]} position={[-2, 0.1, -16]}>
         <meshStandardMaterial color="#2d5a27" roughness={0.95} />
       </Box>
-      <Box args={[3, 0.15, 8]} position={[20, 0.075, -55]}>
-        <meshStandardMaterial color="#2d5a27" roughness={0.95} />
-      </Box>
-      
-      {/* Planter strips along sidewalk */}
-      <Box args={[25, 0.2, 2]} position={[-2, 0.1, -12]}>
-        <meshStandardMaterial color="#2d5a27" roughness={0.95} />
-      </Box>
-      <Box args={[25, 0.2, 2]} position={[42, 0.1, -12]}>
+      <Box args={[25, 0.2, 2]} position={[42, 0.1, -16]}>
         <meshStandardMaterial color="#2d5a27" roughness={0.95} />
       </Box>
     </group>
