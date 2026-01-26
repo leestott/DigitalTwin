@@ -59,14 +59,15 @@ function App() {
         {/* Center - 3D Viewer */}
         <main className="viewer">
           <Canvas shadows>
-            <PerspectiveCamera makeDefault position={[60, 50, -40]} fov={50} />
+            {/* Camera positioned to show building AND car park in front */}
+            <PerspectiveCamera makeDefault position={[80, 60, -70]} fov={55} />
             <OrbitControls
               enablePan={true}
               enableZoom={true}
               enableRotate={true}
-              minDistance={20}
-              maxDistance={200}
-              target={[25, 0, 15]}
+              minDistance={30}
+              maxDistance={300}
+              target={[20, 5, -10]}
             />
             <ambientLight intensity={0.4} />
             <directionalLight position={[50, 50, 25]} intensity={0.8} castShadow />

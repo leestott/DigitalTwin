@@ -266,57 +266,64 @@ function TreeRow({ startPosition, count, spacing = 4, treeType = 'mixed', seed =
 
 // Landscape elements grouped
 // Building footprint is approximately x: -10 to 50, z: -10 to 30 (centered around [20, 0, 10])
+// ALL landscape elements placed FAR OUTSIDE building boundaries
 function Landscape() {
   return (
     <group>
-      {/* Trees along the front of the building - OUTSIDE at z = -15 */}
-      <TreeRow startPosition={[-15, 0, -15]} count={4} spacing={6} treeType="round" seed={100} />
-      <TreeRow startPosition={[55, 0, -15]} count={3} spacing={6} treeType="round" seed={200} />
+      {/* ===== CAR PARKS - FAR IN FRONT OF BUILDING (z < -40) ===== */}
+      {/* Main car park - positioned at z=-55 to be clearly in front */}
+      <CarPark position={[-5, 0, -55]} rows={2} spotsPerRow={12} seed={1000} />
       
-      {/* Trees along the LEFT side - OUTSIDE at x = -15 */}
-      <TreeRow startPosition={[-15, 0, 0]} count={5} spacing={10} treeType="cone" seed={300} />
+      {/* Secondary parking - right side, also far in front */}
+      <CarPark position={[45, 0, -50]} rows={2} spotsPerRow={6} seed={2000} />
       
-      {/* Trees along the RIGHT side - OUTSIDE at x = 65 */}
-      <TreeRow startPosition={[65, 0, 0]} count={5} spacing={10} treeType="mixed" seed={400} />
+      {/* ===== TREES - PERIMETER ONLY ===== */}
+      {/* Trees along parking area front edge - z = -70 */}
+      <TreeRow startPosition={[-20, 0, -70]} count={6} spacing={8} treeType="round" seed={100} />
+      <TreeRow startPosition={[40, 0, -65]} count={4} spacing={7} treeType="round" seed={200} />
       
-      {/* Trees at back - OUTSIDE at z = 55 */}
-      <TreeRow startPosition={[-10, 0, 55]} count={10} spacing={7} treeType="mixed" seed={500} />
+      {/* Trees along LEFT perimeter - x = -25 (well outside x=-10) */}
+      <TreeRow startPosition={[-25, 0, -40]} count={7} spacing={12} treeType="cone" seed={300} />
       
-      {/* Individual accent trees - corners OUTSIDE building */}
-      <RoundTree position={[-18, 0, 25]} scale={1.2} colorIndex={0} />
-      <Tree position={[70, 0, 25]} scale={1.3} colorIndex={2} />
-      <RoundTree position={[-15, 0, 50]} scale={1.0} colorIndex={3} />
-      <Tree position={[68, 0, 50]} scale={1.1} colorIndex={1} />
+      {/* Trees along RIGHT perimeter - x = 75 (well outside x=50) */}
+      <TreeRow startPosition={[75, 0, -40]} count={7} spacing={12} treeType="mixed" seed={400} />
       
-      {/* MAIN Car park - well in front of building at z = -35 */}
-      <CarPark position={[0, 0, -35]} rows={2} spotsPerRow={10} seed={1000} />
+      {/* Trees at BACK - z = 55 (well outside z=30) */}
+      <TreeRow startPosition={[-20, 0, 55]} count={12} spacing={8} treeType="mixed" seed={500} />
       
-      {/* Secondary parking area - right side front at z = -30 */}
-      <CarPark position={[55, 0, -30]} rows={2} spotsPerRow={5} seed={2000} />
+      {/* Corner accent trees - far from building */}
+      <RoundTree position={[-30, 0, -50]} scale={1.3} colorIndex={0} />
+      <Tree position={[85, 0, -50]} scale={1.4} colorIndex={2} />
+      <RoundTree position={[-30, 0, 50]} scale={1.2} colorIndex={3} />
+      <Tree position={[85, 0, 50]} scale={1.2} colorIndex={1} />
       
-      {/* Entrance road/driveway - connecting parking to building */}
-      <Box args={[10, 0.05, 25]} position={[25, 0, -20]}>
+      {/* ===== ROADS AND PATHS ===== */}
+      {/* Main entrance road - from parking to building front */}
+      <Box args={[12, 0.05, 45]} position={[20, 0, -32]}>
         <meshStandardMaterial color="#333333" roughness={0.8} />
       </Box>
       
-      {/* Sidewalk in front of building - at z = -8 */}
-      <Box args={[80, 0.08, 3]} position={[25, 0, -10]}>
+      {/* Sidewalk in front of building entrance - at z = -12 */}
+      <Box args={[70, 0.08, 4]} position={[20, 0, -12]}>
         <meshStandardMaterial color="#888888" roughness={0.7} />
       </Box>
       
-      {/* Grass patches - flanking the parking areas */}
-      <Box args={[20, 0.02, 20]} position={[-20, 0, -30]}>
-        <meshStandardMaterial color="#2d5a27" roughness={0.95} />
-      </Box>
-      <Box args={[15, 0.02, 20]} position={[75, 0, -30]}>
+      {/* ===== GRASS AREAS ===== */}
+      {/* Large grass area around main parking */}
+      <Box args={[90, 0.02, 30]} position={[20, -0.01, -60]}>
         <meshStandardMaterial color="#2d5a27" roughness={0.95} />
       </Box>
       
-      {/* Grass strip along sides of building */}
-      <Box args={[5, 0.02, 50]} position={[-12, 0, 20]}>
+      {/* Grass strips along sides - OUTSIDE building */}
+      <Box args={[8, 0.02, 80]} position={[-20, -0.01, 0]}>
         <meshStandardMaterial color="#2d5a27" roughness={0.95} />
       </Box>
-      <Box args={[5, 0.02, 50]} position={[62, 0, 20]}>
+      <Box args={[8, 0.02, 80]} position={[70, -0.01, 0]}>
+        <meshStandardMaterial color="#2d5a27" roughness={0.95} />
+      </Box>
+      
+      {/* Back grass area */}
+      <Box args={[90, 0.02, 20]} position={[20, -0.01, 50]}>
         <meshStandardMaterial color="#2d5a27" roughness={0.95} />
       </Box>
     </group>
@@ -706,13 +713,13 @@ function BuildingScene({ assets, telemetry, alerts, selectedAsset, onSelectAsset
   if (useGLBModel && glbAvailable && !glbError) {
     return (
       <group>
-        {/* Ground plane */}
-        <mesh rotation={[-Math.PI / 2, 0, 0]} position={[30, -0.5, 20]} receiveShadow>
-          <planeGeometry args={[150, 120]} />
+        {/* Ground plane - expanded to show car parks at z=-55 */}
+        <mesh rotation={[-Math.PI / 2, 0, 0]} position={[25, -0.5, -5]} receiveShadow>
+          <planeGeometry args={[200, 180]} />
           <meshStandardMaterial color="#1a2030" />
         </mesh>
         
-        {/* Landscape - trees and car park */}
+        {/* Landscape - trees and car park OUTSIDE building */}
         <Landscape />
         
         <Suspense fallback={<GLBLoadingFallback />}>
@@ -725,8 +732,8 @@ function BuildingScene({ assets, telemetry, alerts, selectedAsset, onSelectAsset
           />
         </Suspense>
         
-        {/* Grid helper */}
-        <gridHelper args={[150, 30, '#333344', '#222233']} position={[30, 0.01, 20]} />
+        {/* Grid helper - expanded */}
+        <gridHelper args={[200, 40, '#333344', '#222233']} position={[25, 0.01, -5]} />
       </group>
     );
   }
@@ -734,13 +741,13 @@ function BuildingScene({ assets, telemetry, alerts, selectedAsset, onSelectAsset
   // Fallback to procedural geometry
   return (
     <group>
-      {/* Ground plane */}
-      <mesh rotation={[-Math.PI / 2, 0, 0]} position={[20, -0.5, 10]} receiveShadow>
-        <planeGeometry args={[150, 120]} />
+      {/* Ground plane - expanded to show car parks at z=-55 */}
+      <mesh rotation={[-Math.PI / 2, 0, 0]} position={[25, -0.5, -5]} receiveShadow>
+        <planeGeometry args={[200, 180]} />
         <meshStandardMaterial color="#1a2030" />
       </mesh>
       
-      {/* Landscape - trees and car park */}
+      {/* Landscape - trees and car park OUTSIDE building */}
       <Landscape />
       
       {/* Floor plates */}
