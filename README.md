@@ -13,8 +13,7 @@ A web-based digital twin demo for multi-floor office building HVAC operations, f
 - **Comprehensive fault injection** for testing and diagnostics
 - **Real-time controls and KPIs**
 
-![HVAC Digital Twin Screenshot](docs/screenshot.png)
-
+![HVAC Digital Twin Screenshot](docs/AppDemo.png)
 ## Features
 
 ### 🏢 Building Simulation
