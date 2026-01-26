@@ -71,72 +71,70 @@ A web-based digital twin demo for multi-floor office building HVAC operations, f
 ## Quick Start
 
 ### Prerequisites
-- Node.js 18+
+- Node.js 18+ ([download](https://nodejs.org))
 - Foundry Local (optional, for AI copilot features)
 
-### Option A: One-Click Demo Startup (Recommended)
+### Option A: Manual Startup (Recommended)
 
-The easiest way to start the demo is using the startup script:
+Open **two separate terminals** and run:
+
+**Terminal 1 - Backend:**
+```powershell
+cd c:\path\to\DigitalTwin\backend
+npm install
+node src/index.js
+```
+
+**Terminal 2 - Frontend:**
+```powershell
+cd c:\path\to\DigitalTwin\frontend
+npm install
+npm run dev
+```
+
+Then open http://localhost:3000 in your browser.
+
+### Option B: Using Startup Scripts
+
+From the project root directory:
 
 **PowerShell:**
 ```powershell
+cd c:\path\to\DigitalTwin
 .\start-demo.ps1
 ```
 
 **Command Prompt:**
 ```cmd
+cd c:\path\to\DigitalTwin
 start-demo.bat
 ```
 
-This will:
-1. ✅ Check Node.js installation
-2. ✅ Install dependencies (if needed)
-3. ✅ Reset twin state to baseline
-4. ✅ Start backend server (port 3001)
-5. ✅ Start frontend server (port 3000)
-6. ✅ Open browser automatically
+The scripts will:
+1. Check Node.js installation
+2. Install dependencies (if needed)
+3. Reset twin state to baseline
+4. Open two terminal windows (backend + frontend)
+5. Open browser automatically
 
-**Startup Script Options (PowerShell):**
+**Script Options (PowerShell):**
 ```powershell
 .\start-demo.ps1 -SkipInstall      # Skip dependency check
 .\start-demo.ps1 -BackendOnly      # Start only backend
 .\start-demo.ps1 -FrontendOnly     # Start only frontend
+.\start-demo.ps1 -NoBrowser        # Don't open browser
 ```
 
-### Option B: Manual Startup
+### Option C: With Foundry Local (AI Features)
 
-#### 1. Start Foundry Local (optional)
+To enable AI copilot responses:
 
-```bash
+```powershell
 # Install Foundry Local from https://aka.ms/foundry-local
 foundry model run phi-3-mini
 ```
 
-Foundry Local will start on `http://localhost:5272` with OpenAI-compatible API.
-
-#### 2. Start the Backend
-
-```bash
-cd backend
-npm install
-npm start
-```
-
-Backend runs on `http://localhost:3001`
-
-#### 3. Start the Frontend
-
-```bash
-cd frontend
-npm install
-npm run dev
-```
-
-Frontend runs on `http://localhost:3000`
-
-#### 4. Open in Browser
-
-Navigate to `http://localhost:3000` to see the digital twin interface.
+Foundry Local runs on `http://localhost:5272`. Start the backend and frontend as above.
 
 ## Features
 
