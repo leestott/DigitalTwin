@@ -8517,8 +8517,10 @@
       "ruleId": "rule-filter-loading",
       "recommendedAction": "Schedule filter replacement within 2 weeks",
       "timestamp": "2026-01-26T15:21:15.758Z",
-      "acknowledged": false,
-      "resolved": false
+      "acknowledged": true,
+      "resolved": false,
+      "acknowledgedAt": "2026-01-26T15:51:16.917Z",
+      "acknowledgedBy": "operator"
     },
     {
       "id": "alert-1769441388715-z0cshsvlv",
@@ -8555,8 +8557,10 @@
       "ruleId": "rule-co2-critical",
       "recommendedAction": "Immediately increase ventilation or evacuate space",
       "timestamp": "2026-01-26T15:30:00.617Z",
-      "acknowledged": false,
-      "resolved": false
+      "acknowledged": true,
+      "resolved": false,
+      "acknowledgedAt": "2026-01-26T15:51:18.624Z",
+      "acknowledgedBy": "operator"
     },
     {
       "id": "alert-1769441400617-u12gqi4mb",
@@ -8567,8 +8571,10 @@
       "ruleId": "rule-co2-critical",
       "recommendedAction": "Immediately increase ventilation or evacuate space",
       "timestamp": "2026-01-26T15:30:00.617Z",
-      "acknowledged": false,
-      "resolved": false
+      "acknowledged": true,
+      "resolved": false,
+      "acknowledgedAt": "2026-01-26T15:51:19.502Z",
+      "acknowledgedBy": "operator"
     }
   ],
   "faultRules": [

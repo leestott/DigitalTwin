@@ -118,6 +118,8 @@ That loop turns the app into more than a visualization — it becomes an operati
 
 ![Main lobby](docs/images/mainlobby.png)
 
+![Conference Room](docs/images/conference-room.png)
+
 ## Next steps
 
 If you want to extend this app:
