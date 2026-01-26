@@ -278,8 +278,8 @@ function Landscape() {
       </mesh>
       
       {/* ===== PAVED AREAS (on top of grass) ===== */}
-      {/* Building foundation/plaza - concrete pad under building (z: -10 to 30) */}
-      <Box args={[75, 0.1, 40]} position={[20, 0.05, 10]}>
+      {/* Building foundation/plaza - matches building footprint: 60x40 at [20,0,10] */}
+      <Box args={[60, 0.1, 40]} position={[20, 0.05, 10]}>
         <meshStandardMaterial color="#555555" roughness={0.8} />
       </Box>
       
@@ -298,8 +298,8 @@ function Landscape() {
         <meshStandardMaterial color="#333333" roughness={0.85} />
       </Box>
       
-      {/* Sidewalk in front of building entrance - outside building at z=-14 */}
-      <Box args={[70, 0.1, 4]} position={[20, 0.05, -14]}>
+      {/* Sidewalk in front of building entrance - matches building width */}
+      <Box args={[60, 0.1, 4]} position={[20, 0.05, -14]}>
         <meshStandardMaterial color="#777777" roughness={0.7} />
       </Box>
       
@@ -335,10 +335,10 @@ function Landscape() {
       <RoundTree position={[-20, 0.02, 42]} scale={1.1} colorIndex={3} />
       <Tree position={[70, 0.02, 42]} scale={1.1} colorIndex={1} />
       
-      {/* Additional trees near building corners - well inside */}
-      <RoundTree position={[-8, 0.02, -15]} scale={0.9} colorIndex={1} />
+      {/* Trees near building corners - outside building bounds */}
+      <RoundTree position={[-12, 0.02, -15]} scale={0.9} colorIndex={1} />
       <Tree position={[52, 0.02, -15]} scale={1.0} colorIndex={3} />
-      <RoundTree position={[-8, 0.02, 32]} scale={0.8} colorIndex={2} />
+      <RoundTree position={[-12, 0.02, 32]} scale={0.8} colorIndex={2} />
       <Tree position={[52, 0.02, 32]} scale={0.9} colorIndex={0} />
       
       {/* ===== DECORATIVE GRASS PATCHES (darker green accents) ===== */}
