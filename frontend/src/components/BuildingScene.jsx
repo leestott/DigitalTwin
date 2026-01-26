@@ -187,7 +187,7 @@ function CarPark({ position, rows = 2, spotsPerRow = 6, seed = 1000 }) {
           cars.push({
             id: `car-${row}-${spot}`,
             position: [spotX, 0, rowZ + (facingOut ? -0.5 : 0.5)],
-            rotation: facingOut ? 0 : Math.PI,
+            rotation: facingOut ? Math.PI/2 : -Math.PI/2, // 90° rotation to face into bay
             color: CAR_COLORS[Math.floor(seededRandom(spotSeed + 1) * CAR_COLORS.length)]
           });
         }
@@ -315,31 +315,31 @@ function Landscape() {
       {/* Secondary parking - right side */}
       <CarPark position={[42, 0.1, -50]} rows={2} spotsPerRow={5} seed={2000} />
       
-      {/* ===== TREES - on grass perimeter ===== */}
-      {/* Trees along parking area front edge - z = -70 */}
-      <TreeRow startPosition={[-25, 0.02, -72]} count={7} spacing={8} treeType="round" seed={100} />
-      <TreeRow startPosition={[35, 0.02, -68]} count={5} spacing={7} treeType="round" seed={200} />
+      {/* ===== TREES - inside grass area ===== */}
+      {/* Trees along parking area front edge - inside grass at z = -60 */}
+      <TreeRow startPosition={[-15, 0.02, -62]} count={5} spacing={8} treeType="round" seed={100} />
+      <TreeRow startPosition={[30, 0.02, -58]} count={4} spacing={7} treeType="round" seed={200} />
       
-      {/* Trees along LEFT perimeter - x = -30 */}
-      <TreeRow startPosition={[-30, 0.02, -50]} count={8} spacing={12} treeType="cone" seed={300} />
+      {/* Trees along LEFT perimeter - inside at x = -15 */}
+      <TreeRow startPosition={[-15, 0.02, -40]} count={6} spacing={12} treeType="cone" seed={300} />
       
-      {/* Trees along RIGHT perimeter - x = 80 */}
-      <TreeRow startPosition={[80, 0.02, -50]} count={8} spacing={12} treeType="mixed" seed={400} />
+      {/* Trees along RIGHT perimeter - inside at x = 65 */}
+      <TreeRow startPosition={[65, 0.02, -40]} count={6} spacing={12} treeType="mixed" seed={400} />
       
-      {/* Trees at BACK - z = 55 */}
-      <TreeRow startPosition={[-25, 0.02, 55]} count={14} spacing={8} treeType="mixed" seed={500} />
+      {/* Trees at BACK - inside at z = 45 */}
+      <TreeRow startPosition={[-10, 0.02, 45]} count={10} spacing={8} treeType="mixed" seed={500} />
       
-      {/* Corner accent trees */}
-      <RoundTree position={[-35, 0.02, -60]} scale={1.3} colorIndex={0} />
-      <Tree position={[85, 0.02, -60]} scale={1.4} colorIndex={2} />
-      <RoundTree position={[-35, 0.02, 50]} scale={1.2} colorIndex={3} />
-      <Tree position={[85, 0.02, 50]} scale={1.2} colorIndex={1} />
+      {/* Corner accent trees - inside boundaries */}
+      <RoundTree position={[-20, 0.02, -50]} scale={1.2} colorIndex={0} />
+      <Tree position={[70, 0.02, -50]} scale={1.3} colorIndex={2} />
+      <RoundTree position={[-20, 0.02, 42]} scale={1.1} colorIndex={3} />
+      <Tree position={[70, 0.02, 42]} scale={1.1} colorIndex={1} />
       
-      {/* Additional trees near building corners */}
-      <RoundTree position={[-18, 0.02, -15]} scale={1.0} colorIndex={1} />
-      <Tree position={[58, 0.02, -15]} scale={1.1} colorIndex={3} />
-      <RoundTree position={[-18, 0.02, 35]} scale={0.9} colorIndex={2} />
-      <Tree position={[58, 0.02, 35]} scale={1.0} colorIndex={0} />
+      {/* Additional trees near building corners - well inside */}
+      <RoundTree position={[-8, 0.02, -15]} scale={0.9} colorIndex={1} />
+      <Tree position={[52, 0.02, -15]} scale={1.0} colorIndex={3} />
+      <RoundTree position={[-8, 0.02, 32]} scale={0.8} colorIndex={2} />
+      <Tree position={[52, 0.02, 32]} scale={0.9} colorIndex={0} />
       
       {/* ===== DECORATIVE GRASS PATCHES (darker green accents) ===== */}
       {/* Grass islands in parking area */}
