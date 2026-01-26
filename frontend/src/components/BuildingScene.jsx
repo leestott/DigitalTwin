@@ -265,46 +265,58 @@ function TreeRow({ startPosition, count, spacing = 4, treeType = 'mixed', seed =
 }
 
 // Landscape elements grouped
+// Building footprint is approximately x: -10 to 50, z: -10 to 30 (centered around [20, 0, 10])
 function Landscape() {
   return (
     <group>
-      {/* Trees along the front of the building */}
-      <TreeRow startPosition={[-8, 0, -5]} count={4} spacing={5} treeType="round" seed={100} />
-      <TreeRow startPosition={[45, 0, -5]} count={3} spacing={5} treeType="round" seed={200} />
+      {/* Trees along the front of the building - OUTSIDE at z = -15 */}
+      <TreeRow startPosition={[-15, 0, -15]} count={4} spacing={6} treeType="round" seed={100} />
+      <TreeRow startPosition={[55, 0, -15]} count={3} spacing={6} treeType="round" seed={200} />
       
-      {/* Trees along the sides */}
-      <TreeRow startPosition={[-5, 0, 5]} count={6} spacing={8} treeType="cone" seed={300} />
-      <TreeRow startPosition={[55, 0, 5]} count={5} spacing={8} treeType="mixed" seed={400} />
+      {/* Trees along the LEFT side - OUTSIDE at x = -15 */}
+      <TreeRow startPosition={[-15, 0, 0]} count={5} spacing={10} treeType="cone" seed={300} />
       
-      {/* Trees at back */}
-      <TreeRow startPosition={[5, 0, 50]} count={8} spacing={6} treeType="mixed" seed={500} />
+      {/* Trees along the RIGHT side - OUTSIDE at x = 65 */}
+      <TreeRow startPosition={[65, 0, 0]} count={5} spacing={10} treeType="mixed" seed={400} />
       
-      {/* Individual accent trees */}
-      <RoundTree position={[-10, 0, 25]} scale={1.2} colorIndex={0} />
-      <Tree position={[60, 0, 25]} scale={1.3} colorIndex={2} />
-      <RoundTree position={[-8, 0, 40]} scale={1.0} colorIndex={3} />
+      {/* Trees at back - OUTSIDE at z = 55 */}
+      <TreeRow startPosition={[-10, 0, 55]} count={10} spacing={7} treeType="mixed" seed={500} />
       
-      {/* Car park in front of building */}
-      <CarPark position={[5, 0, -20]} rows={2} spotsPerRow={8} seed={1000} />
+      {/* Individual accent trees - corners OUTSIDE building */}
+      <RoundTree position={[-18, 0, 25]} scale={1.2} colorIndex={0} />
+      <Tree position={[70, 0, 25]} scale={1.3} colorIndex={2} />
+      <RoundTree position={[-15, 0, 50]} scale={1.0} colorIndex={3} />
+      <Tree position={[68, 0, 50]} scale={1.1} colorIndex={1} />
       
-      {/* Secondary smaller parking area */}
-      <CarPark position={[50, 0, -15]} rows={1} spotsPerRow={4} seed={2000} />
+      {/* MAIN Car park - well in front of building at z = -35 */}
+      <CarPark position={[0, 0, -35]} rows={2} spotsPerRow={10} seed={1000} />
       
-      {/* Entrance road/driveway */}
-      <Box args={[8, 0.05, 15]} position={[25, 0, -12]}>
+      {/* Secondary parking area - right side front at z = -30 */}
+      <CarPark position={[55, 0, -30]} rows={2} spotsPerRow={5} seed={2000} />
+      
+      {/* Entrance road/driveway - connecting parking to building */}
+      <Box args={[10, 0.05, 25]} position={[25, 0, -20]}>
         <meshStandardMaterial color="#333333" roughness={0.8} />
       </Box>
       
-      {/* Sidewalk in front */}
-      <Box args={[70, 0.08, 3]} position={[25, 0, -3]}>
+      {/* Sidewalk in front of building - at z = -8 */}
+      <Box args={[80, 0.08, 3]} position={[25, 0, -10]}>
         <meshStandardMaterial color="#888888" roughness={0.7} />
       </Box>
       
-      {/* Grass patches */}
-      <Box args={[15, 0.02, 12]} position={[-3, 0, -12]}>
+      {/* Grass patches - flanking the parking areas */}
+      <Box args={[20, 0.02, 20]} position={[-20, 0, -30]}>
         <meshStandardMaterial color="#2d5a27" roughness={0.95} />
       </Box>
-      <Box args={[10, 0.02, 12]} position={[55, 0, -12]}>
+      <Box args={[15, 0.02, 20]} position={[75, 0, -30]}>
+        <meshStandardMaterial color="#2d5a27" roughness={0.95} />
+      </Box>
+      
+      {/* Grass strip along sides of building */}
+      <Box args={[5, 0.02, 50]} position={[-12, 0, 20]}>
+        <meshStandardMaterial color="#2d5a27" roughness={0.95} />
+      </Box>
+      <Box args={[5, 0.02, 50]} position={[62, 0, 20]}>
         <meshStandardMaterial color="#2d5a27" roughness={0.95} />
       </Box>
     </group>
