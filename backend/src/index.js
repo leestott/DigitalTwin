@@ -14,7 +14,7 @@ const http = require('http');
 const fs = require('fs');
 const path = require('path');
 
-const { HVACSimulator } = require('./simulator/hvac-simulator');
+const { HVACSimulator, FAULT_CATALOG } = require('./simulator/hvac-simulator');
 const { handleCopilotChat } = require('./services/copilot-service');
 
 const app = express();
@@ -231,6 +231,24 @@ app.post('/api/twin/fault', (req, res) => {
     simulationLog: result.log,
     newAlerts: result.newAlerts
   });
+});
+
+// GET /api/twin/faults/catalog - Get available fault scenarios
+app.get('/api/twin/faults/catalog', (req, res) => {
+  res.json(HVACSimulator.getFaultCatalog());
+});
+
+// GET /api/twin/faults/active - Get currently active faults
+app.get('/api/twin/faults/active', (req, res) => {
+  res.json(simulator.getActiveFaults());
+});
+
+// DELETE /api/twin/faults/:faultId - Clear a specific fault
+app.delete('/api/twin/faults/:faultId', (req, res) => {
+  const { faultId } = req.params;
+  twinState = simulator.clearFault(faultId);
+  saveTwinState();
+  res.json({ success: true, message: `Fault ${faultId} cleared` });
 });
 
 // POST /api/twin/reset - Reset to baseline state

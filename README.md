@@ -1,11 +1,47 @@
 # Smart Building HVAC Digital Twin
 
+[![MIT License](https://img.shields.io/badge/License-MIT-blue.svg)](LICENSE)
+[![Node.js](https://img.shields.io/badge/Node.js-18%2B-green.svg)](https://nodejs.org/)
+[![React](https://img.shields.io/badge/React-18-61dafb.svg)](https://reactjs.org/)
+[![Three.js](https://img.shields.io/badge/Three.js-r150-black.svg)](https://threejs.org/)
+
 A web-based digital twin demo for multi-floor office building HVAC operations, featuring:
 - **JSON-based twin state** as the single source of truth
 - **Deterministic HVAC simulator** with physics-based models
-- **Foundry Local SLM integration** for AI-powered operations assistance
+- **AI-powered Operations Copilot** for natural language building control
 - **Interactive 3D visualization** with React + Three.js
+- **Comprehensive fault injection** for testing and diagnostics
 - **Real-time controls and KPIs**
+
+![HVAC Digital Twin Screenshot](docs/screenshot.png)
+
+## Features
+
+### 🏢 Building Simulation
+- Multi-zone thermal modeling
+- VAV and AHU simulation
+- Chiller, boiler, and pump dynamics
+- CO2 and air quality modeling
+
+### 🤖 AI Copilot
+- Natural language queries about building status
+- Execute commands: "Set lobby temp to 72"
+- Run simulations: "Advance 30 minutes"
+- Inject faults for testing
+
+### ⚡ Fault Injection
+- 20+ fault scenarios for testing:
+  - Plant failures (chiller, boiler, pumps)
+  - AHU failures (fan, coil freeze, economizer)
+  - VAV failures (stuck damper, reheat)
+  - Sensor failures (drift, complete failure)
+  - Communication and power failures
+
+### 📊 KPIs & Monitoring
+- Energy consumption and cost
+- Comfort compliance
+- Air quality (CO2) tracking
+- Equipment efficiency
 
 ## Architecture
 
