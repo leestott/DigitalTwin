@@ -430,16 +430,16 @@ function Landscape() {
       <Box args={[50, 0.08, 10]} position={[20, 0.04, -16]}>
         <meshStandardMaterial color="#9e9e9e" roughness={0.6} />
       </Box>
-      {/* Plaza accent border */}
-      <Box args={[52, 0.1, 0.5]} position={[20, 0.05, -11.5]}>
+      {/* Plaza accent border - outside building front (z < -10) */}
+      <Box args={[52, 0.1, 0.5]} position={[20, 0.05, -12]}>
         <meshStandardMaterial color="#666666" roughness={0.7} />
       </Box>
       <Box args={[52, 0.1, 0.5]} position={[20, 0.05, -20.5]}>
         <meshStandardMaterial color="#666666" roughness={0.7} />
       </Box>
       
-      {/* Entrance canopy shadow simulation */}
-      <Box args={[12, 0.05, 6]} position={[20, 0.06, -12]}>
+      {/* Entrance canopy shadow simulation - outside building front */}
+      <Box args={[12, 0.05, 6]} position={[20, 0.06, -14]}>
         <meshStandardMaterial color="#a0a0a0" roughness={0.5} />
       </Box>
       
@@ -468,11 +468,13 @@ function Landscape() {
       <Tree position={[32, 0, -36]} scale={1.1} colorIndex={3} />
       <RoundTree position={[65, 0, -36]} scale={1.0} colorIndex={1} />
       
-      {/* Side landscape strips */}
-      {/* Left side of building */}
-      <TreeRow startPosition={[-18, 0, -5]} count={4} spacing={10} treeType="cone" seed={200} />
-      {/* Right side of building */}
-      <TreeRow startPosition={[58, 0, -5]} count={4} spacing={10} treeType="mixed" seed={250} />
+      {/* Side landscape strips - positioned OUTSIDE building footprint */}
+      {/* Left side - x must be < -10, along building edge */}
+      <TreeRow startPosition={[-15, 0, -8]} count={3} spacing={15} treeType="cone" seed={200} />
+      <TreeRow startPosition={[-15, 0, 32]} count={2} spacing={12} treeType="round" seed={201} />
+      {/* Right side - x must be > 50, along building edge */}
+      <TreeRow startPosition={[55, 0, -8]} count={3} spacing={15} treeType="mixed" seed={250} />
+      <TreeRow startPosition={[55, 0, 32]} count={2} spacing={12} treeType="cone" seed={251} />
       
       {/* Back of building landscape */}
       <TreeRow startPosition={[-15, 0, 38]} count={9} spacing={9} treeType="mixed" seed={300} />
@@ -829,7 +831,7 @@ function GLBModel({ assets, telemetry, alerts, selectedAsset, onSelectAsset }) {
   };
   
   return (
-    <group ref={modelRef} onClick={handleClick}>
+    <group ref={modelRef} onClick={handleClick} rotation={[0, Math.PI, 0]}>
       <primitive object={clonedScene} />
       
       {/* Add floating labels and indicators for zones */}
