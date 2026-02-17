@@ -74,7 +74,7 @@ A web-based digital twin demo for multi-floor office building HVAC operations, f
 - Foundry Local (optional, for AI copilot features)
 - On Windows (PowerShell), ensure the current user can execute `C:\Program Files\nodejs\npm.ps1` without a digital signature (see tip below).
 > [!TIP]
-> If you get a error like the following:
+> If you get an error like the following:
 > 
 > npm : File C:\Program Files\nodejs\npm.ps1 cannot be loaded. The file C:\Program Files\nodejs\npm.ps1 is not digitally
 > signed. You cannot run this script on the current system. For more information about running scripts and setting
